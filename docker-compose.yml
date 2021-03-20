@@ -5,6 +5,7 @@ services:
     container_name: cloudflared
     image: visibilityspots/cloudflared
     restart: unless-stopped
+    network_mode: host
     networks:
       pihole_net:
         ipv4_address: 10.0.0.2
@@ -13,10 +14,7 @@ services:
     container_name: pihole
     image: pihole/pihole:latest
     restart: unless-stopped
-    ports:
-        - "80:80/tcp"
-        - "53:53/tcp"
-        - "53:53/udp"
+    network_mode: host
     environment:
         DNS1: '10.0.0.2#5054'
         DNS2: ''
