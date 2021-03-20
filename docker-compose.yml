@@ -6,9 +6,6 @@ services:
     image: visibilityspots/cloudflared
     restart: unless-stopped
     network_mode: host
-    networks:
-      pihole_net:
-        ipv4_address: 10.0.0.2
 
   pihole:
     container_name: pihole
@@ -16,7 +13,7 @@ services:
     restart: unless-stopped
     network_mode: host
     environment:
-        DNS1: '10.0.0.2#5054'
+        DNS1: '127.0.0.1#5054'
         DNS2: ''
         IPv6: 'false'
         TZ: 'Australia/Melbourne'
@@ -27,18 +24,9 @@ services:
     volumes:
         - './etc-pihole/:/etc/pihole/'
         - './etc-dnsmasq.d/:/etc/dnsmasq.d/'
-    networks:
-      pihole_net:
-        ipv4_address: 10.0.0.3
     dns:
       - 127.0.0.1
       - 1.1.1.1
     cap_add:
       - NET_ADMIN
 
-networks:
-  pihole_net:
-    driver: bridge
-    ipam:
-     config:
-       - subnet: 10.0.0.0/29
